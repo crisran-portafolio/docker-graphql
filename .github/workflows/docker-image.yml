@@ -22,7 +22,7 @@ jobs:
       with: 
         major_pattern: "major:"
         minor_pattern: "minor:"
-        format: "${major}.${minor}.${patch}-prerelease${increment}"
+        format: "${major}.${minor}.${patch}-rc-${increment}"
       id: version
             
     #- name: Build the Docker image
@@ -31,22 +31,24 @@ jobs:
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         echo "Iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Fin del login"
-        echo "------------------------- NEW VERSION $NEW_VERSION -------------------------"
 
-    # - name: Build docker image
-    #   run: | 
-    #     docker build -t crisran/docker-graphql:0.0.2 .
-    #     docker build -t crisran/docker-graphql:latest .
+    - name: Build docker image
+      env: 
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: | 
+        docker build -t crisran/docker-graphql:$NEW_VERSION .
+        docker build -t crisran/docker-graphql:latest .
     
-    # - name: Push in docker hub
-    #   run: |
-    #     docker push crisran/docker-graphql:0.0.2
-    #     docker push crisran/docker-graphql:latest
+    - name: Push in docker hub
+      env: 
+          NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        docker push crisran/docker-graphql:$NEW_VERSION
+        docker push crisran/docker-graphql:latest
 
 
 
