@@ -36,9 +36,8 @@ jobs:
         echo "Iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Fin del login"
+        echo "------------------------- NEW VERSION $NEW_VERSION -------------------------"
 
-    - name: Print version image
-      run: echo "------------------------- NEW VERSION $NEW_VERSION -------------------------"
     # - name: Build docker image
     #   run: | 
     #     docker build -t crisran/docker-graphql:0.0.2 .
