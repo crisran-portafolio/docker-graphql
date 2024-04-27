@@ -29,11 +29,13 @@ jobs:
         echo "Fin del login"
     - name: Build docker image
       run: | 
-        docker build -t crisran/docker-graphql:0.0.1 .
+        docker build -t crisran/docker-graphql:0.0.2 .
+        docker build -t crisran/docker-graphql:latest .
     
     - name: Push in docker hub
       run: |
-        docker push crisran/docker-graphql:0.0.1
+        docker push crisran/docker-graphql:0.0.2
+        docker push crisran/docker-graphql:latest
 
 
 
